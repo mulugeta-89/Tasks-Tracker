@@ -8,10 +8,20 @@
   },
   "dependencies": {
     "core-js": "^3.8.3",
-    "vue": "^3.2.13"
+    "vue": "^3.4.15"
   },
   "devDependencies": {
     "@vue/cli-plugin-babel": "~5.0.0",
-    "@vue/cli-service": "~5.0.0"
+    "@vue/cli-service": "~5.0.0",
+    "@vue/compiler-sfc": "^3.4.15",
+    "css-loader": "^6.10.0",
+    "file-loader": "^6.2.0",
+    "mini-css-extract-plugin": "^2.8.0",
+    "url-loader": "^4.1.1",
+    "vue-loader": "^15.9.7",
+    "vue-template-compiler": "^2.7.16",
+    "webpack": "^5.90.1",
+    "webpack-cli": "^5.1.4",
+    "webpack-dev-server": "^4.15.1"
   }
 }
