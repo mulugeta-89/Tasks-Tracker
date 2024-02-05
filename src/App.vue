@@ -1,7 +1,7 @@
 <template>
   <div class="container">
     <Header title="Tasks Tracker"/>
-    <Tasks :tasks="tasks"/>
+    <Tasks @deleteTask="handleDelete" :tasks="tasks"/>
   </div>
 </template>
 
@@ -52,7 +52,11 @@ export default {
         "reminder": false
       }
 ]
-
+  },
+  methods: {
+    handleDelete(id) {
+      this.tasks = this.tasks.filter(task => task.id !== id)
+    }
   }
 }
 </script>
