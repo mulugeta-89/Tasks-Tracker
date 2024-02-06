@@ -1,6 +1,6 @@
 <template>
-    <div :class="[task.reminder ? 'reminder' : '', 'task']">
-        <h3>{{task.text}}</h3>
+    <div @dblclick="$emit('toggleDelete', task.id)" class="task" :style="{borderLeft: task.reminder ? '5px solid green': ''}">
+        <h3 :style="{color: task.reminder ? 'green': 'yellow'}">{{task.text}}</h3>
         <i @click="$emit('deleteTask', task.id)" class="fas fa-times"></i>
         <p>{{task.day}}</p>
     </div>
@@ -11,11 +11,6 @@ export default {
     name: "Task",
     props: {
         task: Object
-    },
-    methods: {
-        deleteTask(id) {
-            this.$emit("delete", task.id)
-        }
     }
 }
 </script>
@@ -32,7 +27,7 @@ export default {
   cursor: pointer;
 }
 
-.task .reminder {
+.task.reminder {
   border-left: 5px solid green;
 }
 
