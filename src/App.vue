@@ -22,60 +22,53 @@ export default {
   data() {
     return {
       tasks: [],
-      showAddTask: true
+      showAddTask: false
     }
   },
-  created() {
-      this.tasks = [
-      {
-        "id": 1,
-        "text": "Buy groceries",
-        "day": "2024-02-10",
-        "reminder": true
-      },
-      {
-        "id": 2,
-        "text": "Meeting with client",
-        "day": "2024-02-15",
-        "reminder": false
-      },
-      {
-        "id": 3,
-        "text": "Complete project",
-        "day": "2024-03-01",
-        "reminder": true
-      },
-      {
-        "id": 4,
-        "text": "Exercise",
-        "day": "2024-02-12",
-        "reminder": true
-      },
-      {
-        "id": 5,
-        "text": "Read a book",
-        "day": "2024-02-20",
-        "reminder": false
-      }
-]
+  async created() {
+      this.tasks = await this.fetchTasks()
   },
   methods: {
-    handleDelete(id) {
-      this.tasks = this.tasks.filter(task => task.id !== id)
+    async handleDelete(id) {
+      const res = await fetch(`http://localhost:5000/tasks/${id}`, {
+        method: "DELETE"
+      })
+      
+      if (res.status === 200) {
+        this.tasks = this.tasks.filter(task => task.id !== id)
+      } else {
+        alert("Error has occurred")
+      }
     },
     handleToggle(id) {
       var task = this.tasks.find(task => task.id == id)
       task.reminder = !task.reminder
-
-      console.log(task.reminder)
-      // console.log(id)
     },
-    addTask(task) {
-      this.tasks.push(task)
+    async addTask(task) {
+      const res = await fetch("api/tasks", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify(task)
+      })
+
+      const data = await res.json()
+      this.tasks.push(data)
     },
     toggleAddTask() {
-      console.log(this.showAddTask)
       this.showAddTask = !this.showAddTask
+      console.log(this.showAddTask)
+    },
+    async fetchTasks() {
+      const res = await fetch("api/tasks");
+      const data = await res.json();
+      return data;
+    },
+    async fetchTask(id) {
+      const res = await fetch(`api/tasks/${id}`);
+      const data = await res.json()
+      return data
     }
   }
 }
@@ -95,7 +88,7 @@ body {
 }
 
 .container {
-  max-width: 500px;
+  max-width: 700px;
   margin: 30px auto;
   overflow: auto;
   min-height: 300px;
